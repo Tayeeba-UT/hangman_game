@@ -1,137 +1,138 @@
 # Hangman Game
 
-A modular, terminal-based Hangman game written in pure Python.  
-This project was developed for an academic assignment focused on file handling, modular programming, and clean code organization.  
-It can be easily reused or extended by anyone learning Python fundamentals.
+A simple, terminal-based version of the classic Hangman puzzle — built completely in Python with no external libraries.  
+The project was developed to practice modular programming, file handling, and clean code structure, but it’s also just fun to play.
 
 ---
 
-## Features
+## What It Does
 
-- Fully terminal-based word guessing game  
-- Category selection (Animals, Countries, Programming, Science)  
-- Scoring system with persistent statistics  
-- Automatic logging of every game  
-- Seven-stage ASCII-art hangman display  
-- Built using only basic Python concepts — no external libraries, no classes
+When you run the game, you’ll be asked to choose a category — **Animals**, **Countries**, **Programming**, or **Science**.  
+A random word from that category is selected, and you guess one letter at a time.  
+Each wrong guess adds a piece to the hangman drawing. Six wrong guesses, and you’re out.
+
+The game keeps track of your total score and win rate, creates a log for every round, and saves all your progress between runs.
 
 ---
 
-## Getting Started
+## How to Run
 
-### 1. Clone or Download
-
-Clone this repository or download it as a ZIP file.
-
-```bash
-git clone https://github.com/yourusername/hangman_game.git
-cd hangman_game
-2. Run the Game
-Make sure Python 3.9 or newer is installed, then run:
+1. Make sure you have **Python 3.9** or later installed.  
+2. Download or clone this repository:
+   ```bash
+   git clone https://github.com/yourusername/hangman_game.git
+   cd hangman_game
+Start the game from the terminal:
 
 bash
 Copy code
 python main.py
-The game will launch in your terminal.
+Follow the on-screen instructions to pick a category and start guessing.
 
-Folder Structure
+You can play as many rounds as you like — your statistics will update automatically after each one.
+
+Scoring Rules
+Each correct word earns points based on its length and how many mistakes you made:
+
+ini
+Copy code
+Score = (word_length × 10) − (wrong_guesses × 5)
+A loss gives 0 points for that round.
+Your cumulative stats (games played, wins, losses, total score, win rate, and average score per game) are stored in stats.txt.
+
+Word Lists
+All words are stored as plain text — one per line.
+
+bash
+Copy code
+words/
+├── words.txt             # General list (fallback)
+└── categories/
+    ├── animals.txt
+    ├── countries.txt
+    ├── programming.txt
+    └── science.txt
+You can easily expand these files or add your own categories.
+For example, create movies.txt inside words/categories/ and the game will pick it up automatically.
+
+Game Logs
+Every round is recorded inside the game_log folder.
+Each game gets its own sub-folder:
+
+bash
+Copy code
+game_log/
+├── game1/log.txt
+├── game2/log.txt
+└── ...
+Each log.txt file includes:
+
+Category and word used
+
+All guesses (correct and incorrect)
+
+Number of wrong guesses
+
+Result (Win or Loss)
+
+Points for the round
+
+Date and time
+
+A small readme.txt in that folder explains its purpose if it’s empty.
+
+Folder Overview
 bash
 Copy code
 hangman_game/
 ├── main.py                   # Entry point
-├── stats.txt                 # Persistent statistics
-├── words/
-│   ├── words.txt             # Default wordlist (one word per line)
-│   └── categories/
-│       ├── animals.txt
-│       ├── countries.txt
-│       ├── programming.txt
-│       └── science.txt
-├── game/
-│   ├── engine.py             # Main game loop and logic
-│   ├── wordlist.py           # Word loading and random selection
-│   ├── ascii_art.py          # Hangman ASCII drawings
-│   └── logger.py             # Handles per-game logging
-├── ui/
-│   └── display.py            # UI and terminal output functions
-└── game_log/
-    └── game1/log.txt         # Example of a generated game log
-How It Works
-Category Selection
-The player chooses a category at startup.
-Words are loaded from words/categories/<category>.txt, or from words.txt if the category file is missing.
+├── stats.txt                 # Persistent stats
+├── README.md                 # This file
+├── words/                    # Wordlists and categories
+├── game/                     # Core logic
+│   ├── engine.py
+│   ├── wordlist.py
+│   ├── ascii_art.py
+│   └── logger.py
+├── ui/                       # Terminal display functions
+│   └── display.py
+└── game_log/                 # Auto-generated logs
+Customizing the Game
+Add new categories:
+Create a .txt file inside words/categories/ and fill it with one word per line.
 
-Gameplay Loop
-The player has six wrong attempts to guess the word, one letter at a time.
-Each incorrect guess progresses the ASCII-art hangman.
+Change the scoring formula:
+Edit calculate_score() in engine.py.
 
-Scoring System
-ini
-Copy code
-Score = (word_length × 10) − (wrong_guesses × 5)
-Losing a round gives 0 points.
+Update ASCII art:
+Modify the drawings in ascii_art.py.
 
-Persistent Statistics
-Overall statistics are saved in stats.txt and updated automatically:
+Reset your progress:
+Delete or clear stats.txt.
 
-Games played
-
-Wins and losses
-
-Total score
-
-Win rate (%)
-
-Average score per game
-
-Game Logging
-Each new round creates a folder inside game_log/:
-
-bash
-Copy code
-game_log/game1/log.txt
-game_log/game2/log.txt
-Each log file records category, word, guesses, result, score, and timestamp.
-
-Customization
-Add More Categories
-Create new text files inside words/categories/ (for example, movies.txt, sports.txt).
-Each line should contain one word.
-
-Change ASCII Art
-Modify drawings in game/ascii_art.py.
-
-Adjust Scoring Rules
-Edit the calculate_score() function inside engine.py.
+Everything runs with basic Python functions — no packages or frameworks required.
 
 Requirements
-Python 3.9 or later
+Python 3.9 +
 
-No external dependencies (uses only the Python standard library)
+Works entirely in the terminal
 
-License
-This project is open-source and free for educational or personal use.
-You may modify and extend it for learning or demonstrations.
+Uses only standard library modules (pathlib, random, datetime, os)
 
-Acknowledgment
-Developed as part of the Advanced Python Programming course to demonstrate:
-
-Functions and Type Hinting
-
-File Handling and Path Management
-
-Control Flow and Loops
-
-Lists, Dictionaries, and Sets
-
-Modular Code Organization
-
-Example Gameplay (Terminal Output)
-vbnet
+Example Gameplay
+markdown
 Copy code
-Welcome to Hangman!
-Choose a category (Animals, Countries, Programming, Science):
-> Programming
+=============================================
+           WELCOME TO HANGMAN
+=============================================
+Choose a category:
+  1. Animals
+  2. Countries
+  3. Programming
+  4. Science
+
+Enter the number of your choice (1-4): 3
+
 New word selected from 'Programming' (length 6)
 _ _ _ _ _ _
 Guessed letters: None
@@ -139,9 +140,11 @@ Remaining attempts: 6
 
 Enter a letter: p
 Correct!
-Progress: p _ _ _ _ _
+---------------------------------------------
+Word: p _ _ _ _ _
+Guessed letters: p
 Remaining attempts: 6
-Anyone cloning this repository can immediately run python main.py to start playing or extend the logic for their own projects.
-
+---------------------------------------------
 Author
 Umbreen Tariq
+Advanced Python Programming Course
